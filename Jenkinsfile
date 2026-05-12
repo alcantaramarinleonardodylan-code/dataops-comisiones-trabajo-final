@@ -10,7 +10,7 @@ pipeline {
 
         stage('Run Container') {
             steps {
-                sh 'docker run --rm -v $(pwd):/app dataops-comisiones'
+                sh 'docker run --rm dataops-comisiones'
             }
         }
     }
