@@ -10,7 +10,13 @@ pipeline {
 
         stage('Ejecutar contenedor') {
             steps {
-                sh 'docker run --rm -v $(pwd):/app dataops-comisiones'
+                sh '''
+                docker rm -f contenedor-comisiones || true
+                docker create --name contenedor-comisiones dataops-comisiones
+                docker start -a contenedor-comisiones
+                docker cp contenedor-comisiones:/app/comisiones.xlsx ./comisiones.xlsx
+                docker rm contenedor-comisiones
+                '''
             }
         }
 
@@ -18,6 +24,7 @@ pipeline {
             steps {
                 sh 'ls -la'
                 sh 'ls -la comisiones.xlsx'
+                archiveArtifacts artifacts: 'comisiones.xlsx', fingerprint: true
             }
         }
     }
