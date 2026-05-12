@@ -6,6 +6,7 @@ datos = {
 }
 
 df = pd.DataFrame(datos)
+
 df["Comision"] = df["Ventas"] * 0.10
 
 df.to_excel("comisiones.xlsx", index=False)
