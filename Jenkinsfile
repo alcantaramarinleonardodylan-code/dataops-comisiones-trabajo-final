@@ -2,15 +2,22 @@ pipeline {
     agent any
 
     stages {
-        stage('Build Docker Image') {
+        stage('Construir imagen Docker') {
             steps {
                 sh 'docker build -t dataops-comisiones .'
             }
         }
 
-        stage('Run Container') {
+        stage('Ejecutar contenedor') {
             steps {
-                sh 'docker run --rm dataops-comisiones'
+                sh 'docker run --rm -v $(pwd):/app dataops-comisiones'
+            }
+        }
+
+        stage('Verificar Excel generado') {
+            steps {
+                sh 'ls -la'
+                sh 'ls -la comisiones.xlsx'
             }
         }
     }
